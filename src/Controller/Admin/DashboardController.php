@@ -3,9 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
+use App\Entity\Product;
+use App\Entity\Category;
 use App\Entity\Conference;
 use Symfony\Component\HttpFoundation\Response;
+use App\Controller\Admin\CommentCrudController;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -23,6 +29,13 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
+    public function configureActions(): Actions
+    {
+        return parent::configureActions()
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ;
+    }
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -35,5 +48,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoRoute('Back to the website', 'fas fa-home', 'homepage');
         yield MenuItem::linkToCrud('Conferences', 'fas fa-map-marker-alt', Conference::class);
         yield MenuItem::linkToCrud('Comments', 'fas fa-comments', Comment::class);
-    }
+        yield MenuItem::linkToCrud('Product', 'fas fa-list', Product::class);
+        yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
+}
 }
