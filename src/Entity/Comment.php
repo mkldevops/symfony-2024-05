@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Entity\Trait\CreatedAtTrait;
-use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Trait\CreatedAtTrait;
+use App\Repository\CommentRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
@@ -19,12 +21,17 @@ class Comment implements \Stringable
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Email]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -103,5 +110,10 @@ class Comment implements \Stringable
         $this->photoFilename = $photoFilename;
 
         return $this;
+    }
+
+    public static function setFilename(UploadedFile $photo) : string 
+    {
+        return bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
     }
 }
