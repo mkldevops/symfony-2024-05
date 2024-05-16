@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\Conference;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\CommentCrudController;
+use App\Entity\Admin;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -50,5 +51,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Comments', 'fas fa-comments', Comment::class);
         yield MenuItem::linkToCrud('Product', 'fas fa-list', Product::class);
         yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Admin', 'fas fa-list', Admin::class);
 }
 }
