@@ -3,15 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Comment;
-use App\Entity\Conference;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class CommentFormType extends AbstractType
 {
@@ -19,7 +17,7 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('author', null, [
-                'label' => 'Your name'
+                'label' => 'Your name',
             ])
             ->add('text')
             ->add('email', EmailType::class)

@@ -2,25 +2,26 @@
 
 namespace App\Controller;
 
-use App\SpamChecker;
 use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use App\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ConferenceController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    ) { }
+    ) {
+    }
 
     #[Route('/', name: 'homepage')]
     public function index(ConferenceRepository $conferenceRepository): Response
@@ -32,13 +33,12 @@ class ConferenceController extends AbstractController
 
     #[Route('/conference/{slug}', name: 'conference')]
     public function show(
-        Request $request, 
-        Conference $conference, 
+        Request $request,
+        Conference $conference,
         SpamChecker $spamChecker,
         CommentRepository $commentRepository,
         #[Autowire('%photo_dir%')] string $photoDir,
     ): Response {
-
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
         $form->handleRequest($request);
@@ -73,7 +73,7 @@ class ConferenceController extends AbstractController
 
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
-        
+
         return $this->render('conference/show.html.twig', [
             'comment_form' => $form,
             'conference' => $conference,

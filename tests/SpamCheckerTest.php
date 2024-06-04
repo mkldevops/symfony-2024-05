@@ -24,11 +24,11 @@ class SpamCheckerTest extends TestCase
     }
 
     #[DataProvider('provideComments')]
-    public function testSpamScore(int $expectedScore, ResponseInterface $response, Comment $comment, array $context)
+    public function testSpamScore(int $expectedScore, ResponseInterface $response, Comment $comment, array $context) : void
     {
         $client = new MockHttpClient([$response]);
         $checker = new SpamChecker($client, 'abcde');
-        
+
         $score = $checker->getSpamScore($comment, $context);
         static::assertSame($expectedScore, $score);
     }
