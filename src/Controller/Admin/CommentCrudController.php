@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -29,6 +30,7 @@ class CommentCrudController extends AbstractCrudController
         yield EmailField::new('email');
         yield TextareaField::new('text')
             ->hideOnIndex();
+        yield ChoiceField::new('state');
         yield ImageField::new('photoFilename')
             ->setUploadDir('/public/uploads/photos')
             ->setUploadedFileNamePattern(fn (UploadedFile $photo) => Comment::setFilename($photo))

@@ -1,6 +1,9 @@
 SHELL := /bin/bash
-tests:
+
+drop-db:
 	APP_ENV=test symfony console doctrine:database:drop --force || true
+
+tests: drop-db
 	APP_ENV=test symfony console doctrine:database:create
 	APP_ENV=test symfony console doctrine:schema:update --force
 	APP_ENV=test symfony console doctrine:fixtures:load -n
@@ -24,4 +27,9 @@ php-cs-fixer:
 php-cs-fixer-dry-run:
 	APP_ENV=dev symfony php vendor/bin/php-cs-fixer fix --dry-run
 
+psql:
+	symfony run psql
+
 quality: php-cs-fixer tests phpstan
+
+.PHONY: tests
